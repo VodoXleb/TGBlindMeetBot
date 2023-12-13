@@ -224,6 +224,7 @@ async def send_request(callback: types.CallbackQuery, state: FSMContext):
 
 
 async def cmd_find_handler(msg: types.Message, state: FSMContext) -> None:  # функция поиска собеседника
+    print()
     try:
         conn = sqlite.connect('my_database.db')
         cursor = conn.cursor()
@@ -232,6 +233,7 @@ async def cmd_find_handler(msg: types.Message, state: FSMContext) -> None:  # ф
         if len(users) < 1:
             builder = InlineKeyboardBuilder()
             builder.button(text="Закончили", callback_data="finish_find")
+            await state.update_data(msg=msg)
             builder.button(text="Поискать ещё", callback_data="find")
             await msg.answer("Похоже, никого кроме тебя нет!",
                              reply_markup=builder.as_markup(resize_keyboard=True))
