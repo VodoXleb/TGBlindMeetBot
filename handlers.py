@@ -227,7 +227,7 @@ async def cmd_find_handler(msg: types.Message, state: FSMContext) -> None:  # ф
     try:
         conn = sqlite.connect('my_database.db')
         cursor = conn.cursor()
-        cursor.execute(f'''SELECT * FROM Users WHERE hidden = 0 AND link_id = -1''')
+        cursor.execute(f'''SELECT * FROM Users WHERE hidden = 0 AND link_id = -1 AND user_id != {msg.from_user.id}''')
         users = cursor.fetchall()
         if len(users) < 1:
             builder = InlineKeyboardBuilder()
